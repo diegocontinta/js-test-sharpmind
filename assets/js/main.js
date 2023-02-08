@@ -1,44 +1,63 @@
 
-const el = document.getElementById("dragSectionElement");
 
-function drag_element(el) {
+const parent            = document.getElementById("dragSection");
+const parentRect        = parent.getBoundingClientRect();
+const draggable         = document.getElementById("dragSectionElement");
+const draggableRect     = draggable.getBoundingClientRect()
+
+let   dragging          = false;
+
+function dragElement(el) {
     //Define the initial position
-    var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-        el.onmousedown = drag_mouse_down;
+    dragging = true;
+    el.onmousedown = dragMouseDown;
 }
 
-function drag_mouse_down(e) {
+function dragMouseDown(e) {
 
     e = e || window.event;
     e.preventDefault();
-    // get the mouse cursor position at startup:
-    pos3 = e.clientX;
-    pos4 = e.clientY;
-    document.onmouseup  = close_drag_element;
-    // call a function whenever the cursor moves:
-    document.onmousemove = element_drag;
+    draggable.classList.add('active');
+
+    document.onmouseup  = closeDragElement;
+    document.onmousemove = ElementDrag;
   }
 
 
-  function element_drag(e) {
+  function ElementDrag(e) {
+
     e = e || window.event;
+
+    if(dragging) {
+
     e.preventDefault();
-
-    pos1 = pos3 - e.clientX;
-    pos2 = pos4 - e.clientY;
-    pos3 = e.clientX;
-    pos4 = e.clientY;
-
-    el.style.top = (el.offsetTop - pos2) + "px";
-    el.style.left = (el.offsetLeft - pos1) + "px";
+            if( (e.clientX >= parentRect.left && (e.clientX+draggableRect.width <= parentRect.right)) &&
+                (e.clientY >= parentRect.top && (e.clientY+draggableRect.height <= parentRect.bottom))
+              ){
+        //add draggableRect.width draggableRect.height accoints for
+                draggable.style.left = `${e.clientX}px`;
+                draggable.style.top = `${e.clientY}px`;
+            }
+      else{
+        //if mouse went out of bounds in Horizontal dir.
+        if(e.clientX+draggableRect.width >= parentRect.right){
+           draggable.style.left = `${parentRect.right-draggableRect.width}px`;
+        }
+        //if mouse went out of bounds in Vertical dir.
+        if(e.clientY+draggableRect.height >= parentRect.bottom){
+           draggable.style.top = `${parentRect.bottom-draggableRect.height}px`;
+        }
+      }
   }
+}
 
-   function close_drag_element() {
-    // stop moving when mouse button is released:
+   function closeDragElement() {
     document.onmouseup = null;
     document.onmousemove = null;
+    draggable.classList.remove('active');
+
   }
 
 
-drag_element(el);
+dragElement(draggable);
 
