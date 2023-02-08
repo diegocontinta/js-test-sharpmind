@@ -143,6 +143,9 @@ out
 .nuxt
 dist
 
+# Express Dist build / generate output
+public
+
 # Gatsby files
 .cache/
 # Comment in the public line in if your project uses Gatsby and not Next.js
