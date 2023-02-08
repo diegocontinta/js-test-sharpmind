@@ -6,7 +6,7 @@ This a test to apply job to sharpmind as Web Game Developer position.
 
 ## What does the test do?
 
-It will create a server and it will be loading a webpage where is a DIV with size equal to 80% if viewport draggable child element inside, and then  cannot be dragged outside the parent div
+It will create a server and loading a webpage where there is a DIV with size equal to 80% if viewport draggable child element inside, and then cannot be dragged outside the parent div.
 
 ## Installation:
 
